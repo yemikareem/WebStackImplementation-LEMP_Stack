@@ -2,8 +2,7 @@
 ## Cementing the Skills of Deploying Web Solutions using the LA(E)MP Stacks
 
 ### STEP 0: THE PREREQUISITES
-- Catch up registering and setting up an AWS free-tier account with Ubuntu Server OS via EC2, [**HERE**]
-  (https://github.com/yemikareem/LampStackImplementation#step-0-the-prerequisites)
+- Catch up registering and setting up an AWS free-tier account with Ubuntu Server OS via EC2, [**HERE**](https://github.com/yemikareem/LampStackImplementation#step-0-the-prerequisites)
 
 NB: In the previous project, we used Putty on Windows to connect to EC2 Instance; now we will use the simplest option, GitBash.
 
