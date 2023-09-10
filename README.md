@@ -2,43 +2,53 @@
 ## Cementing the Skills of Deploying Web Solutions using the LA(E)MP Stacks
 
 ### STEP 0: THE PREREQUISITES
-- Catch up registering and setting up an AWS free-tier account with Ubuntu Server OS via EC2, [**HERE**](https://github.com/yemikareem/LampStackImplementation#step-0-the-prerequisites)
+- Catch up registering and setting up an AWS free-tier account with Ubuntu Server OS via EC2, [**HERE**]
+  (https://github.com/yemikareem/LampStackImplementation#step-0-the-prerequisites)
 
 NB: In the previous project, we used Putty on Windows to connect to EC2 Instance; now we will use the simplest option, GitBash.
 
 - To connect to EC2 Instance without converting .pem key to .ppk - using GitBash
   1. [Download and install](https://www.youtube.com/watch?v=qdwWe9COT9k) GitBash
   2. Launch GitBash and run - "ssh -i <Your-private-key.pem> ubuntu@<EC2-Public-IP-address>"
+
 ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/d2d352f1-8dec-49ba-8ff4-974b105cdb85)
 
 ### STEP 1: INSTALLING THE NGINX WEB SERVER
 Nginx is a high-performance web server that helps display web pages to site visitors.
 - To install Nginx:
   1. Run "sudo apt update"
-     ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/f73c1b57-6273-411b-bdb5-5015a05d1a2c)
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/f73c1b57-6273-411b-bdb5-5015a05d1a2c)
 
   2. Then run "sudo apt install nginx"
-     ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/7a3a623d-4858-434f-8997-91c7bc0da394)
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/7a3a623d-4858-434f-8997-91c7bc0da394)
 
 - To test the Nginx successful file configuration - "sudo nginx -t"
-  ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/b20b6e1c-d373-40e3-b1e5-4983b3d2aa02)
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/b20b6e1c-d373-40e3-b1e5-4983b3d2aa02)
 
 - To verify that nginx was successfully installed and is running as a service in Ubuntu - "sudo systemctl status nginx"
 
   NB: If it fails to load (see the image below), it may be that Apache is installed on the server. 
-  ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/06e2168c-3fd1-4b61-a9c1-e1cbf3497d53)
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/06e2168c-3fd1-4b61-a9c1-e1cbf3497d53)
 
   To check if Apache was installed on the server - "apachectl -v"
 
-  ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/872d4be8-b646-4351-a542-faee02f806b2)
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/872d4be8-b646-4351-a542-faee02f806b2)
 
   Yes, it was. Now let's uninstall Apache - "sudo apt-get purge apache2", then "sudo apt-get autoremove apache2", then check again with "apachectl -v"
-  ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/1ddbb431-d772-47aa-af65-87be2cac19cc)
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/1ddbb431-d772-47aa-af65-87be2cac19cc)
 
   Restart Nginx - "sudo systemctl restart nginx"
-  ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/0620a163-b326-4074-8b0b-c03eebbf542b)
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/0620a163-b326-4074-8b0b-c03eebbf542b)
 
   Now run "sudo systemctl status nginx" over again
+
 ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/8b43bd75-6e1b-424f-901e-8caaafa0ba51)
 
 - Ref [Project LampStack](https://github.com/yemikareem/LampStackImplementation#step-1-installing-apache-and-updating-the-firewall): rule already added to EC2 configuration to open inbound connection via TCP port 80 
@@ -46,7 +56,8 @@ Nginx is a high-performance web server that helps display web pages to site visi
 - Checking how to access it locally in our Ubuntu shell - "curl http://localhost:80" or "curl http://52.56.228.186:80" 
 
   NB: Another way to retrieve the Public IP Address instead of checking it in the AWS console is by typing this directly in the CLI - "curl -s http://169.254.169.254/latest/meta-data/public-ipv4"
-  ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/3f6a6f0e-addd-4bea-a741-671524d7d036)
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/3f6a6f0e-addd-4bea-a741-671524d7d036)
 
   Well, this is the same content gotten by the 'curl' command but represented in a nice HTML format by the web browser.
 
@@ -67,6 +78,7 @@ Additionally, we'll need php-mysql , a PHP module that allows PHP to communicate
 Core PHP packages will automatically be installed as dependencies.
 
 - To install these 2 packages at once, run: "sudo apt install php-fpm php-mysql"
+
 ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/fbba2b02-26e1-4b41-8de9-2ad68cd66759)
 
 
@@ -81,6 +93,7 @@ Don't modify /var/www/html , rather create a directory structure within /var/www
 
 - Create the root web directory for your_domain as follows: "sudo mkdir /var/www/projectLEMP" 
 - Assign ownership of the directory with the $USER environment variable, referencing the current system user - "sudo chown -R $USER:$USER /var/www/projectLEMP"
+
 ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/fe1b7206-a437-4f65-9195-e4e74b5e128b)
 
 - Open a new configuration file in Nginx's sites-available directory, using the preferred command-line editor - we will be using **nano* - "sudo nano /etc/nginx/sites-available/projectLEMP" - this creates a new blank file
@@ -138,10 +151,12 @@ When done editing, save and close the file. because we are using nano, we can do
 - Activating the configuration by linking to the config file from Nginx's sites-enabled directory, will tell Nginx to use the configuration the next time it is reloaded - "sudo ln -s /etc/nginx/sites-available/projectLEMP /etc/nginx/sites-enabled/"
 
 - Testing the configuration for syntax error - "sudo nginx -t"
+
 ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/57fa69cf-96e1-427c-a931-f88f6f5483d9)
 
 - There is a need to disable the default Nginx host that is currently configured to listen on port 80 - "sudo unlink /etc/nginx/sites-enabled/default"
 - Then reload Nginx to apply the changes - "sudo systemctl reload nginx"
+
 ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/9f39ae72-1f90-445f-96b0-22524c8126ba)
 
 At this point, our new site is active, but the web root /var/www/projectLEMP is still empty. 
@@ -149,7 +164,9 @@ At this point, our new site is active, but the web root /var/www/projectLEMP is 
 - To create an index.html file in that location to test that the new server block is working perfectly - "sudo echo 'Hello LEMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectLEMP/index.html"
 
 - Now, let's go to our browser to open our website URL using IP address
+
 ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/564f8193-f19f-4e85-8275-935abd6e7c0b)
+
 ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/27fcc486-c859-42d7-8248-2fc866385d1f)
 
 NB: This can be left in place temporarily as a landing page until index.php is set up for replacement
@@ -164,7 +181,9 @@ NB: This can be left in place temporarily as a landing page until index.php is s
 "phpinfo();"
 
 - When done, save and close the file in the text editor. Refresh the page by adding /info.php to the URL, and the below will load up:
+
 ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/5aa62f0d-bded-4f4d-86d3-26e1c4f7e350)
+
 ![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/b08dd279-bbf0-4e8f-8064-c6ee1ffe2092)
 
 Please note that it is best to remove the created file after checking the relevant information through this page, as it contains sensitive information about the PHP environment and the Ubuntu server.
@@ -175,7 +194,18 @@ This can always be regenerated whenever needed.
 
 
 ### STEP 6: RETRIEVING DATA FROM MYSQL DATABASE WITH PHP
+**Objective:** To create a test database (DB) with a simple "To Do List", and configure access to it, so that the Nginx website would be able to query data from the DB and display it. 
 
+NB: Because the native MySQL PHP library *mysqlnd* doesn’t support *caching_sha2_authentication* yet, which is the default authentication method for MySQL 8. We'll need to create a new user with the *MySQL_native_password* authentication method in order to be able to connect to the MySQL database from PHP.
 
+We will create a database named *example_database* and a user named *example _user*. We can on our own replace these names with different values.
+
+- First, let's connect to the MySQL console using the root account: "sudo MySQL".
+
+NB: If you are not the root user, first enter on the CLI - "sudo mysql -p", then enter the root password
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/0de8872a-7add-4b51-8c0f-76b6231f53d3)
+
+- To create a new database - "mysql> CREATE DATABASE `example_database`;"
 
 
