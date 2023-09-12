@@ -4,7 +4,7 @@
 ### STEP 0: THE PREREQUISITES
 - Catch up registering and setting up an AWS free-tier account with Ubuntu Server OS via EC2, [**HERE**](https://github.com/yemikareem/LampStackImplementation#step-0-the-prerequisites)
 
-NB: In the previous project, we used Putty on Windows to connect to EC2 Instance; now we will use the simplest option, GitBash.
+NB: In the previous project, we used Putty on Windows to connect to EC2 Instance; now we will use the most straightforward option, GitBash.
 
 - To connect to EC2 Instance without converting .pem key to .ppk - using GitBash
   1. [Download and install](https://www.youtube.com/watch?v=qdwWe9COT9k) GitBash
@@ -68,11 +68,9 @@ Please refer to [**Step 2, Project 1**](https://github.com/yemikareem/LampStackI
 ### STEP 3: INSTALLING PHP
 Tip: *Linux** is installed to serve as a work environment, *Nginx** (instead of Apache) is installed to serve the content (this is the main difference in LAMP & LEMP stacks), *MySQL** is installed to store and manage data, and *PHP** processes code and generate dynamic content for the web server.
 
-Apache embeds the PHP interpreter in each request, while Nginx requires an external program to handle PHP processing and act as a bridge between the PHP interpreter and the web server. This allows for a better overall performance in most PHP-based websites, but it requires additional configuration. 
+We need to install php -fpm , which stands for “PHP fastCGI process manager”, and tell Nginx to pass PHP requests to this software for processing. 
 
-So, we'll need to install php -fpm , which stands for “PHP fastCGI process manager”, and tell Nginx to pass PHP requests to this software for processing. 
-
-Additionally, we'll need php-mysql , a PHP module that allows PHP to communicate with MySQL-based databases.
+We also need php-mysql , a PHP module that allows PHP to communicate with MySQL-based databases.
 
 Core PHP packages will automatically be installed as dependencies.
 
@@ -203,8 +201,50 @@ We will create a database named *example_database* and a user named *example _us
 
 NB: If you are not the root user, first enter on the CLI - "sudo mysql -p", then enter the root password
 
-![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/0de8872a-7add-4b51-8c0f-76b6231f53d3)
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/c996710b-b7f7-4ff8-babb-e570b22ba949)
 
-- To create a new database - "mysql> CREATE DATABASE `example_database`;"
+- To create a new database on the MySQL console, run - "CREATE DATABASE `example_database`;"
+  
+- To create a new user, run - "CREATE USER 'example_user'@'%' IDENTIFIED WITH mysql_native_password BY 'PassWord.1';"
+
+- To grant full access to the user created, run - "GRANT ALL ON example_database.* TO 'example_user'@'%';"
+
+- Now exit the mysql console
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/dd8eb8c3-dc9c-482c-bf88-cc59d2caa51e)
+
+- To test if the new user has the proper permissions to login to the mysql console again - "mysql -u example_user -p", then enter the new pasword
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/a8d05a92-b2c5-40a1-b34b-99349e79274e)
+
+- After logging in to the console, to confirm that we have acces to the example_database database - "SHOW DATABASES;"
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/91f54cfe-3068-487d-a67a-b75acbbffe65)
+
+- To create a test table named todo_list; from the MySql console, run - "CREATE TABLE example_database.todo_list (item_id INT AUTO_INCREMENT,content VARCHAR(255),PRIMARY KEY(item_id));"
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/9070b574-a7e0-4345-8d61-4904e6d8e4b6)
+
+- To insert a few rows of contents in the test table (this can be repeated a few time with different values) -  "INSERT INTO example_database.todo_list (content) VALUES ("My 1st important item");"
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/8f4c2531-44aa-403d-937a-3cf0b1581a8d)
+
+- To confirm that the data was successfully saved to the table - "SELECT * FROM example_database.todo_list;"
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/9c5e2c30-be5d-4a5d-b350-089417f35d15)
+then, exit the console.
+
+- To create the PHP script that will connect to MySQL database and query for the content, we then create a new PHP file in the custom web root directory using your preferred editor; in this case we are using vi - "nano /var/www/projectLEMP/todo_list.php"
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/3fa4d152-164f-4708-b633-b11d413f8b93)
+save and close the file when done editing
+
+- The page can now be accessed via the web browser using the domain name or public address configured for it adding */todo_list.php*
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/b39a4999-1e16-4ae5-ad98-aab9e6d1fbd6)
+
+![image](https://github.com/yemikareem/WebStackImplementation-LEMP_Stack/assets/141459374/c7772121-f73c-4a5e-a35e-fa9532f3551b)
 
 
+Project 2: WebStackImplementation-LEMP_Stack Completed! 
+(c) Yemi Kareem, 2023.
